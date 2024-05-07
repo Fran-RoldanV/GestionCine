@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Pos?>
+
+<?import javafx.scene.control.Label?>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="es.gestioncine.gestioncine.controllers.TopBarController"
+      alignment="CENTER_LEFT"
+      spacing="10"
+      style="-fx-background-color: #6A1B9A; -fx-padding: 10;">
+
+    <!-- Botón para mostrar el SideMenu -->
+    <Button fx:id="menuButton" style="-fx-background-color: transparent;">
+        <graphic>
+            <ImageView>
+                <image>
+                    <Image url="@../resources/img/nav_home.png"/>
+                </image>
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <!-- Título del menú -->
+    <Label text="Gestión de Cine" style="-fx-text-fill: white; -fx-font-size: 16pt;"/>
+</HBox>
