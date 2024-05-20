@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox prefHeight="70.0" prefWidth="879.0" spacing="20" style="-fx-background-color: #222831;" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.TopBarController">
+<HBox prefHeight="70.0" prefWidth="1235.0" spacing="20" style="-fx-background-color: #222831;" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.TopBarController">
 
     <!-- Elementos del TopBar -->
     <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
@@ -25,9 +25,9 @@
                     </Label>
                 </HBox>
             </graphic>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
         </Button>
 
         <Button fx:id="btnPeliculas" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="122.0" style="-fx-background-color: transparent;">
@@ -45,9 +45,9 @@
                     </Label>
                 </HBox>
             </graphic>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
         </Button>
 
         <Button fx:id="btnReservas" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="123.0" style="-fx-background-color: transparent;">
@@ -65,11 +65,74 @@
                     </Label>
                 </HBox>
             </graphic>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
         </Button>
+
+        <Button fx:id="btnCriticas" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="123.0" style="-fx-background-color: transparent;">
+            <graphic>
+                <HBox alignment="CENTER" spacing="5">
+                    <ImageView fitHeight="30.0" fitWidth="30.0">
+                        <image>
+                            <Image url="@../resources/img/nav_comment.png" />
+                        </image>
+                    </ImageView>
+                    <Label prefHeight="50.0" prefWidth="72.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Críticas" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="12.0" />
+                        </font>
+                    </Label>
+                </HBox>
+            </graphic>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Button>
+
+        <Button fx:id="btnDescuentos" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;">
+            <graphic>
+                <HBox alignment="CENTER" prefHeight="57.0" prefWidth="240.0" spacing="5">
+                    <ImageView fitHeight="30.0" fitWidth="30.0">
+                        <image>
+                            <Image url="@../resources/img/nav_discount.png" />
+                        </image>
+                    </ImageView>
+                    <Label prefHeight="50.0" prefWidth="160.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Promociones" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="12.0" />
+                        </font>
+                    </Label>
+                </HBox>
+            </graphic>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Button>
+
+        <Button fx:id="btnAjustes" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="123.0" style="-fx-background-color: transparent;">
+            <graphic>
+                <HBox alignment="CENTER" spacing="5">
+                    <ImageView fitHeight="30.0" fitWidth="30.0">
+                        <image>
+                            <Image url="@../resources/img/nav_settings.png" />
+                        </image>
+                    </ImageView>
+                    <Label prefHeight="50.0" prefWidth="72.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Ajustes" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="12.0" />
+                        </font>
+                    </Label>
+                </HBox>
+            </graphic>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </Button>
+
     </HBox>
+
+
 
     <!-- Espacio en blanco para alinear a la derecha -->
     <Region HBox.hgrow="ALWAYS" />
