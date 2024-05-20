@@ -1,3 +1,6 @@
+/* styles.css */
+
+/* Definición de colores */
 :root {
     --black: #FF000000;
     --white: #FFFFFFFF;
@@ -7,3 +10,20 @@
     --pistas: #919191;
     --boton: #00ADB5;
 }
+
+/* Estilos de los componentes */
+.button {
+    -fx-background-color: var(--boton);
+    -fx-text-fill: var(--white);
+}
+
+.label {
+    -fx-text-fill: var(--texto);
+}
+
+/* Otros estilos */
+.root {
+    -fx-background-color: var(--fondo);
+    -fx-text-fill: var(--texto);
+}
+

@@ -8,21 +8,14 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="es.gestioncine.gestioncine.controllers.MainController"
-            onMouseClicked="#closeSideMenu">
+            fx:controller="es.gestioncine.gestioncine.controllers.MainController">
 
 
   <top>
-    <HBox style="-fx-background-color: #6A1B9A; -fx-padding: 10;">
-      <Button text="Menu" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#toggleSideMenu"/>
+    <HBox fx:id="topBar">
+      <fx:include source="TopBar.fxml"/>
     </HBox>
   </top>
-
-  <left>
-    <VBox fx:id="sideMenu" style="-fx-background-color: #C5CAE9;">
-      <fx:include source="SideMenu.fxml"/>
-    </VBox>
-  </left>
 
   <center>
     <StackPane fx:id="contentPane"/>
