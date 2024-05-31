@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 public class LoginController {
 
-    private static final String IP = "192.168.0.108";
+    private static final String IP = "192.168.1.111";
     private static final int PORT = 12345;
 
     @FXML

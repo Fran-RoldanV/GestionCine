@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
-   <Text text="Bienvenido a la Página de Inicio" style="-fx-font-size: 24px;"/>
-   <Text text="Aquí puedes agregar información relevante para la página de inicio." style="-fx-font-size: 14px;"/>
+<VBox alignment="TOP_CENTER" spacing="40" style="-fx-background-color: #393E46;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.HomeController">
+   <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #EEEEEE;" text="Novedades" />
+
+   <HBox alignment="CENTER" spacing="20">
+      <Button fx:id="leftButton" onAction="#moveLeft" style="-fx-background-color: #EEEEEE; -fx-text-fill: #393E46; -fx-font-size: 24px; -fx-padding: 10px;" text="←" />
+      <HBox fx:id="imageBox" alignment="CENTER" spacing="10" />
+      <Button fx:id="rightButton" onAction="#moveRight" style="-fx-background-color: #EEEEEE; -fx-text-fill: #393E46; -fx-font-size: 24px; -fx-padding: 10px;" text="→" />
+   </HBox>
+   <padding>
+      <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+   </padding>
 </VBox>
