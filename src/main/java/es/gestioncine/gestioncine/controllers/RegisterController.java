@@ -1,28 +1,15 @@
 package es.gestioncine.gestioncine.controllers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class RegisterController {
-
-    private static final String IP = "192.168.0.108";
-    private static final int PORT = 12345;
-
     @FXML
     private TextField campoName;
-    @FXML
-    private TextField campoSurname;
     @FXML
     private TextField campoUser;
     @FXML
@@ -30,100 +17,75 @@ public class RegisterController {
     @FXML
     private PasswordField campoRepitePassword;
     @FXML
-    private TextField campoFecha;
+    private DatePicker campoFecha;
     @FXML
     private CheckBox campoConsentimiento;
     @FXML
-    private Button botonSiguiente;
-    @FXML
-    private Label responseText;
-
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private Label errorLabel;
 
     @FXML
-    private void initialize() {
-        botonSiguiente.setOnAction(event -> {
-            String name = campoName.getText();
-            String surname = campoSurname.getText();
-            String email = campoUser.getText();
-            String password = campoPassword.getText();
-            String repitePassword = campoRepitePassword.getText();
-            String passwordHashed = cifrarPassword(password);
-            String birthdate = campoFecha.getText();
-            boolean consentimiento = campoConsentimiento.isSelected();
+    private void handleRegister() {
+        String name = campoName.getText();
+        String email = campoUser.getText();
+        String password = campoPassword.getText();
+        String repeatPassword = campoRepitePassword.getText();
+        String birthdate = campoFecha.getValue().toString();
+        boolean consent = campoConsentimiento.isSelected();
 
-            if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty() || repitePassword.isEmpty()
-                    || birthdate.isEmpty()) {
-                responseText.setText("Por favor, rellene todos los campos.");
-                return;
-            }
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty() || birthdate.isEmpty()) {
+            errorLabel.setText("Todos los campos son obligatorios.");
+            return;
+        }
 
-            if (!password.equals(repitePassword)) {
-                responseText.setText("Las contraseñas no coinciden.");
-                return;
-            }
+        if (!consent) {
+            errorLabel.setText("Debe aceptar los términos y la política de privacidad.");
+            return;
+        }
 
-            if (!consentimiento) {
-                responseText.setText("Por favor, acepte los términos y la política de privacidad.");
-                return;
-            }
+        if (!password.equals(repeatPassword)) {
+            errorLabel.setText("Las contraseñas no coinciden.");
+            return;
+        }
 
-            ordenServer(name, surname, email, passwordHashed, birthdate);
-        });
-    }
+        String hashedPassword = hashPassword(password);
 
-    private void ordenServer(String name, String surname, String email, String passwordHashed, String birthdate) {
-        executorService.submit(() -> {
-            String response = authenticationTask("REGISTER", name, surname, email, passwordHashed, birthdate);
+        try (Socket socket = new Socket("localhost", 12345);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            Platform.runLater(() -> {
-                if (response.equals("REGISTER_SUCCESS")) {
-                    responseText.setText("Registro exitoso.");
-                    // Aquí podría colocar código para cambiar de ventana.
-                } else if (response.equals("REGISTER_FAILED")) {
-                    responseText.setText("Algo ha ido mal...");
-                } else {
-                    responseText.setText("Error de conexión.");
+            out.println("REGISTER");
+            out.println(name);
+            out.println(email);
+            out.println(hashedPassword);
+            out.println(birthdate);
+
+            String response = in.readLine();
+            switch (response) {
+                case "REGISTER_SUCCESS" -> {
+                    errorLabel.setText("Registro exitoso.");
+                    // Redirigir a la vista de inicio usando el MainController
+                    MainController.getInstance().showHome();
                 }
-            });
-        });
-    }
-
-    private String authenticationTask(String... params) {
-        try (Socket socket = new Socket(IP, PORT);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-            for (String param : params) {
-                out.println(param);
+                case "REGISTER_FAILED" -> errorLabel.setText("Error en el registro. Inténtelo nuevamente.");
+                case "NOT_VALID_EMAIL" -> errorLabel.setText("Correo electrónico no válido.");
+                default -> errorLabel.setText("Error desconocido.");
             }
-
-            return in.readLine();
         } catch (IOException e) {
-            return "Error de conexión";
+            errorLabel.setText("Error de conexión: " + e.getMessage());
         }
     }
 
-    public String cifrarPassword(String password) {
+    private String hashPassword(String password) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes());
-
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashBytes) {
+                sb.append(String.format("%02x", b));
             }
-            return hexString.toString();
+            return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
-    }
-
-    // Metodo para cerrar el executor al cerrar la aplicación.
-    public void shutdown() {
-        executorService.shutdown();
     }
 }

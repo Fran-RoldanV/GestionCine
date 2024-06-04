@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
+
 import java.io.IOException;
 
 public class MainController {
@@ -13,8 +14,17 @@ public class MainController {
     @FXML
     private StackPane contentPane;
 
+    private static MainController instance;
+
+    public MainController() {
+        instance = this;
+    }
+
+    public static MainController getInstance() {
+        return instance;
+    }
+
     public void initialize() {
-        // Mostrar la página de inicio por defecto
         showHome();
     }
 
@@ -31,7 +41,7 @@ public class MainController {
     }
 
     @FXML
-    private void showHome() {
+    public void showHome() {
         setPage("/es/gestioncine/gestioncine/views/HomeView.fxml");
     }
 
@@ -69,7 +79,6 @@ public class MainController {
     private void showRegistrarse() {
         setPage("/es/gestioncine/gestioncine/views/RegisterView.fxml");
     }
-
 
     private void setPage(String fxmlFile) {
         try {

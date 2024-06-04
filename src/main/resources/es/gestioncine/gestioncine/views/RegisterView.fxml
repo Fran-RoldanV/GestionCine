@@ -1,40 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="600" prefWidth="800" spacing="10" style="-fx-background-color: #393E46; -fx-padding: 20px;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.RegisterController">
-    <ImageView fx:id="imagenLogo" fitHeight="195.0" fitWidth="200">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.RegisterController" spacing="20" alignment="CENTER" style="-fx-background-color: #393E46; -fx-padding: 40px; -fx-spacing: 20px;">
+    <ImageView fx:id="imagenLogo" fitHeight="200" fitWidth="200" preserveRatio="true">
         <image>
             <Image url="@../resources/img/icon.png" />
         </image>
     </ImageView>
-
-    <Label fx:id="textoIniciarSesion" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #EEEEEE;" text="Registrar" />
-
-    <Label fx:id="textoSubInicioSesion" style="-fx-font-size: 16px; -fx-text-fill: #EEEEEE;" text="Por favor, complete los siguientes campos para registrarse." />
-
-    <TextField fx:id="campoName" prefHeight="40.0" prefWidth="760.0" promptText="Nombre" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-min-height: 40px; -fx-background-radius: 20px;" />
-
-    <TextField fx:id="campoSurname" prefHeight="40.0" prefWidth="760.0" promptText="Apellido" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-min-height: 40px; -fx-background-radius: 20px;" />
-
-    <TextField fx:id="campoUser" prefHeight="40.0" prefWidth="760.0" promptText="Correo electrónico" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-min-height: 40px; -fx-background-radius: 20px;" />
-
-    <PasswordField fx:id="campoPassword" prefHeight="40.0" prefWidth="760.0" promptText="Contraseña" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-min-height: 40px; -fx-background-radius: 20px;" />
-
-    <PasswordField fx:id="campoRepitePassword" prefHeight="40.0" prefWidth="760.0" promptText="Repetir contraseña" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-min-height: 40px; -fx-background-radius: 20px;" />
-
-    <TextField fx:id="campoFecha" prefHeight="40.0" prefWidth="760.0" promptText="Fecha de nacimiento" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-min-height: 40px; -fx-background-radius: 20px;" />
-
-    <CheckBox fx:id="campoConsentimiento" style="-fx-text-fill: #EEEEEE;" text="Acepto las condiciones de privacidad" />
-
-    <Button fx:id="botonSiguiente" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-background-color: #00ADB5; -fx-text-fill: #FFFFFF; -fx-background-radius: 20px;" text="Siguiente" />
-
-    <Label id="responseText" fx:id="responseText" textFill="#e83b49">
-        <font>
-            <Font name="System Bold" size="12.0" />
-        </font>
-    </Label>
+    <Label text="Registrarse" style="-fx-font-size: 28px; -fx-text-fill: #EEEEEE; -fx-font-weight: bold;" />
+    <Label text="Complete los detalles para registrarse" style="-fx-font-size: 16px; -fx-text-fill: #EEEEEE;" />
+    <TextField fx:id="campoName" promptText="Nombre" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-text-alignment: center; -fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10; -fx-max-width: 600px;" />
+    <TextField fx:id="campoUser" promptText="Correo Electrónico" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-text-alignment: center; -fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10; -fx-max-width: 600px;" />
+    <PasswordField fx:id="campoPassword" promptText="Contraseña" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-text-alignment: center; -fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10; -fx-max-width: 600px;" />
+    <PasswordField fx:id="campoRepitePassword" promptText="Repetir Contraseña" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-text-alignment: center; -fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 10; -fx-max-width: 600px;" />
+    <DatePicker fx:id="campoFecha" promptText="Fecha de Nacimiento" style="-fx-font-size: 14px; -fx-prompt-text-fill: #919191; -fx-text-alignment: center; -fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-background-radius: 20; -fx-border-radius: 20; -fx-padding: 5; -fx-max-width: 600px;" />
+    <CheckBox fx:id="campoConsentimiento" text="Acepto los términos y la política de privacidad" style="-fx-text-fill: #EEEEEE; -fx-max-width: 600px;" />
+    <Button fx:id="botonSiguiente" text="Siguiente" onAction="#handleRegister" style="-fx-background-color: #00ADB5; -fx-text-fill: #FFFFFF; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-border-radius: 20; -fx-max-width: 600px;" />
+    <Label fx:id="errorLabel" style="-fx-text-fill: #FF0000; -fx-max-width: 600px;" />
 </VBox>
