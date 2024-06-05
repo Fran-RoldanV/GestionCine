@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
-
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
-    <Text text="Página de Películas" style="-fx-font-size: 24px;"/>
-    <Text text="Aquí puedes agregar información relevante para la página de películas." style="-fx-font-size: 14px;"/>
-</VBox>
+<ScrollPane fitToWidth="true" style="-fx-background-color: #393E46; -fx-padding: 10;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.MovieController">
+    <VBox alignment="CENTER" spacing="20" style="-fx-background-color: #393E46; -fx-padding: 20;">
+        <VBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Películas para mayores de 18" style="-fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <HBox fx:id="mayor18" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-pref-height: 150;" />
+        </VBox>
+        <VBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Películas para menores de 18" style="-fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <HBox fx:id="menor18" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-pref-height: 150;" />
+        </VBox>
+        <VBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Películas para niños" style="-fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <HBox fx:id="kids" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-pref-height: 150;" />
+        </VBox>
+    </VBox>
+</ScrollPane>

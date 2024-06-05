@@ -84,6 +84,20 @@ public class MainController {
         setPage("/es/gestioncine/gestioncine/views/ForgotPasswordView.fxml");
     }
 
+    // Nuevo método para mostrar la página de datos de la película
+    public void showMovieData(String imageUrl, String correo) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/es/gestioncine/gestioncine/views/MovieDataView.fxml"));
+            Parent newLoadedPane = loader.load();
+            MovieDataController controller = loader.getController();
+            controller.initialize(imageUrl, correo);
+            contentPane.getChildren().clear();
+            contentPane.getChildren().add(newLoadedPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setPage(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
