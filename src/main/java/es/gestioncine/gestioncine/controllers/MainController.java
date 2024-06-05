@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.Parent;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class MainController {
     }
 
     @FXML
-    private void exit(MouseEvent event) {
+    public void exit(MouseEvent event) {
         Button btn = (Button) event.getSource();
         btn.setStyle("-fx-background-color: transparent;");
     }
@@ -46,44 +46,48 @@ public class MainController {
     }
 
     @FXML
-    private void showPeliculas() {
+    public void showPeliculas() {
         setPage("/es/gestioncine/gestioncine/views/MoviesView.fxml");
     }
 
     @FXML
-    private void showReservas() {
+    public void showReservas() {
         setPage("/es/gestioncine/gestioncine/views/ReservationsView.fxml");
     }
 
     @FXML
-    private void showCriticas() {
+    public void showCriticas() {
         setPage("/es/gestioncine/gestioncine/views/ReviewsView.fxml");
     }
 
     @FXML
-    private void showDescuentos() {
+    public void showDescuentos() {
         setPage("/es/gestioncine/gestioncine/views/DiscountView.fxml");
     }
 
     @FXML
-    private void showAjustes() {
+    public void showAjustes() {
         setPage("/es/gestioncine/gestioncine/views/SettingsView.fxml");
     }
 
     @FXML
-    private void showIniciarSesion() {
+    public void showIniciarSesion() {
         setPage("/es/gestioncine/gestioncine/views/LoginView.fxml");
     }
 
     @FXML
-    private void showRegistrarse() {
+    public void showRegistrarse() {
         setPage("/es/gestioncine/gestioncine/views/RegisterView.fxml");
+    }
+
+    public void showForgotPassword() {
+        setPage("/es/gestioncine/gestioncine/views/ForgotPasswordView.fxml");
     }
 
     private void setPage(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Pane newLoadedPane = loader.load();
+            Parent newLoadedPane = loader.load();
             contentPane.getChildren().clear();
             contentPane.getChildren().add(newLoadedPane);
         } catch (IOException e) {

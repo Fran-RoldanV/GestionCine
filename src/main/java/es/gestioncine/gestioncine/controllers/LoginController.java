@@ -1,5 +1,6 @@
 package es.gestioncine.gestioncine.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.io.*;
@@ -68,5 +69,10 @@ public class LoginController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @FXML
+    private void handleForgotPassword(ActionEvent event) {
+        MainController.getInstance().showForgotPassword();
     }
 }
