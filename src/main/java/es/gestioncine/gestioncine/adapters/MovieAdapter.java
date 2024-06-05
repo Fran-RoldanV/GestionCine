@@ -22,8 +22,8 @@ public class MovieAdapter {
         VBox itemBox = new VBox();
         ImageView imageView = new ImageView();
         imageView.setImage(new Image(movieUrl));
-        imageView.setFitWidth(100);
-        imageView.setFitHeight(150);
+        imageView.setFitWidth(160);
+        imageView.setFitHeight(240);
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             clickListener.onItemClick(position);
             event.consume();

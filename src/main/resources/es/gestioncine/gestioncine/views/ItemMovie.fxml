@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="10">
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20">
     <ImageView fx:id="imageView" fitWidth="100" preserveRatio="true"/>
 </VBox>

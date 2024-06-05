@@ -2,10 +2,7 @@ package es.gestioncine.gestioncine.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import es.gestioncine.gestioncine.adapters.MovieAdapter;
 import es.gestioncine.gestioncine.interfaces.OnItemClickListener;
 
@@ -64,9 +61,9 @@ public class MovieController implements OnItemClickListener {
 
                 Platform.runLater(() -> {
                     MovieAdapter movieAdapter = new MovieAdapter(movieUrls, this);
+                    hbox.getChildren().clear(); // Asegúrate de limpiar cualquier elemento existente
                     for (int i = 0; i < movieUrls.size(); i++) {
-                        VBox item = movieAdapter.createItem(movieUrls.get(i), i);
-                        hbox.getChildren().add(item);
+                        hbox.getChildren().add(movieAdapter.createItem(movieUrls.get(i), i));
                     }
                 });
 
@@ -92,10 +89,4 @@ public class MovieController implements OnItemClickListener {
         MainController.getInstance().showMovieData(movieUrl, correo);
     }
 
-    @FXML
-    private void onMovieClick(MouseEvent event) {
-        String imageUrl = "URL_DE_LA_IMAGEN";
-        String correo = "CORREO_DEL_USUARIO";
-        MainController.getInstance().showMovieData(imageUrl, correo);
-    }
 }
