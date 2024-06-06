@@ -41,12 +41,12 @@ public class MovieController implements OnItemClickListener {
         movieUrlsMenor18 = new ArrayList<>();
         movieUrlsKids = new ArrayList<>();
 
-        fetchMovieUrls("GET_MORE_18_IMAGES_PATH", movieUrlsMayor18, mayor18);
-        fetchMovieUrls("GET_MINUS_18_IMAGES_PATH", movieUrlsMenor18, menor18);
-        fetchMovieUrls("GET_KIDS_IMAGES_PATH", movieUrlsKids, kids);
+        fetchMovieUrls("GET_MORE_18_IMAGES_PATH", movieUrlsMayor18, mayor18, "MAYOR_18");
+        fetchMovieUrls("GET_MINUS_18_IMAGES_PATH", movieUrlsMenor18, menor18, "MENOR_18");
+        fetchMovieUrls("GET_KIDS_IMAGES_PATH", movieUrlsKids, kids, "KIDS");
     }
 
-    private void fetchMovieUrls(String command, List<String> movieUrls, HBox hbox) {
+    private void fetchMovieUrls(String command, List<String> movieUrls, HBox hbox, String category) {
         executorService.execute(() -> {
             try (Socket socket = new Socket(IP, PORT);
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -60,7 +60,7 @@ public class MovieController implements OnItemClickListener {
                 }
 
                 Platform.runLater(() -> {
-                    MovieAdapter movieAdapter = new MovieAdapter(movieUrls, this);
+                    MovieAdapter movieAdapter = new MovieAdapter(movieUrls, this, category);
                     hbox.getChildren().clear(); // Asegúrate de limpiar cualquier elemento existente
                     for (int i = 0; i < movieUrls.size(); i++) {
                         hbox.getChildren().add(movieAdapter.createItem(movieUrls.get(i), i));
@@ -74,19 +74,27 @@ public class MovieController implements OnItemClickListener {
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, String category) {
         String movieUrl = "";
-        if (position < movieUrlsMayor18.size()) {
-            movieUrl = movieUrlsMayor18.get(position);
-        } else if (position < movieUrlsMayor18.size() + movieUrlsMenor18.size()) {
-            movieUrl = movieUrlsMenor18.get(position - movieUrlsMayor18.size());
-        } else if (position < movieUrlsMayor18.size() + movieUrlsMenor18.size() + movieUrlsKids.size()) {
-            movieUrl = movieUrlsKids.get(position - movieUrlsMayor18.size() - movieUrlsMenor18.size());
+
+        switch (category) {
+            case "MAYOR_18":
+                movieUrl = movieUrlsMayor18.get(position);
+                break;
+            case "MENOR_18":
+                movieUrl = movieUrlsMenor18.get(position);
+                break;
+            case "KIDS":
+                movieUrl = movieUrlsKids.get(position);
+                break;
         }
+
+        // Debug: imprimir la categoría y la URL de la película seleccionada
+        System.out.println("Categoría: " + category);
+        System.out.println("URL de la película seleccionada: " + movieUrl);
 
         // Redirigir a la página de datos de la película
         String correo = "CORREO_DEL_USUARIO"; // Asegúrate de obtener el correo del usuario de la forma correcta
         MainController.getInstance().showMovieData(movieUrl, correo);
     }
-
 }

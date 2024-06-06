@@ -84,6 +84,11 @@ public class MainController {
         setPage("/es/gestioncine/gestioncine/views/ForgotPasswordView.fxml");
     }
 
+    public void showReserveMovie() {
+        setPage("/es/gestioncine/gestioncine/views/ReserveView.fxml");
+    }
+
+
     // Nuevo método para mostrar la página de datos de la película
     public void showMovieData(String imageUrl, String correo) {
         try {

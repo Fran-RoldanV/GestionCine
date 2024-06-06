@@ -52,7 +52,7 @@ public class MovieDataController {
         botonReservar.setOnAction(event -> {
             // Lógica para redirigir a la página de reserva
             System.out.println("Redirigir a la página de reserva para la película: " + tituloLabel.getText());
-            // Aquí puedes implementar la lógica para redirigir a la página de reserva
+            MainController.getInstance().showReserveMovie();
         });
     }
 
