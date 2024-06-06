@@ -63,8 +63,10 @@ public class RegisterController {
             switch (response) {
                 case "REGISTER_SUCCESS" -> {
                     errorLabel.setText("Registro exitoso.");
-                    // Redirigir a la vista de inicio usando el MainController
-                    MainController.getInstance().showHome();
+                    // Actualizar el estado de sesión y redirigir a la vista de inicio
+                    MainController mainController = MainController.getInstance();
+                    mainController.actualizarEstadoSesion(true, email);
+                    mainController.showHome();
                 }
                 case "REGISTER_FAILED" -> errorLabel.setText("Error en el registro. Inténtelo nuevamente.");
                 case "NOT_VALID_EMAIL" -> errorLabel.setText("Correo electrónico no válido.");

@@ -94,7 +94,12 @@ public class MovieController implements OnItemClickListener {
         System.out.println("URL de la película seleccionada: " + movieUrl);
 
         // Redirigir a la página de datos de la película
-        String correo = "CORREO_DEL_USUARIO"; // Asegúrate de obtener el correo del usuario de la forma correcta
-        MainController.getInstance().showMovieData(movieUrl, correo);
+        if(MainController.getInstance().getLblCorreoUsuario().isEmpty()){
+            MainController.getInstance().showIniciarSesion();
+        }
+        else {
+            System.out.println(MainController.getInstance().getLblCorreoUsuario());
+            MainController.getInstance().showMovieData(movieUrl, MainController.getInstance().getLblCorreoUsuario());
+        }
     }
 }

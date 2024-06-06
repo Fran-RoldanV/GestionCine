@@ -3,6 +3,7 @@ package es.gestioncine.gestioncine.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
 import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
@@ -46,7 +47,9 @@ public class LoginController {
                 case "LOGIN_SUCCESS" -> {
                     responseText.setText("Inicio de sesión exitoso.");
                     // Redirigir a la vista de inicio usando el MainController
-                    MainController.getInstance().showHome();
+                    MainController mainController = MainController.getInstance();
+                    mainController.actualizarEstadoSesion(true, email);
+                    mainController.showHome();
                 }
                 case "LOGIN_FAILED" -> responseText.setText("Credenciales incorrectas. Inténtelo nuevamente.");
                 default -> responseText.setText("Error desconocido.");
