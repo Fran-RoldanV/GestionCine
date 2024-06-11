@@ -117,12 +117,24 @@ public class MainController {
         setPage("/es/gestioncine/gestioncine/views/ForgotPasswordView.fxml");
     }
 
+
+
     public void showReserveMovie(String tituloLabel) {
-        setPage("/es/gestioncine/gestioncine/views/ReserveView.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/es/gestioncine/gestioncine/views/ReserveView.fxml"));
+            Parent newLoadedPane = loader.load();
+            ReserveMovieController controller = loader.getController();
+            controller.initialize(tituloLabel);
+            contentPane.getChildren().clear();
+            contentPane.getChildren().add(newLoadedPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void cerrarSesion(ActionEvent event) {
+        System.out.println("Hola");
         actualizarEstadoSesion(false, null);
         showHome(); // Show home view after logging out
     }

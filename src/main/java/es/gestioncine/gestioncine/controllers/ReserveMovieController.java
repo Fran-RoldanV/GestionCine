@@ -3,10 +3,11 @@ package es.gestioncine.gestioncine.controllers;
 import es.gestioncine.gestioncine.Configuration;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 import java.io.BufferedReader;
@@ -17,56 +18,73 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ReserveMovieController {
-
-    @FXML
-    private Label labelTitulo;
-
-    @FXML
-    private ComboBox<String> comboBoxSala;
-
-    @FXML
-    private ComboBox<String> comboBoxHorario;
-
-    @FXML
-    private GridPane gridButacas;
-
-    @FXML
-    private Button buttonConfirmar;
 
     private static final String IP = Configuration.IP;
     private static final int PORT = Configuration.PORT;
 
-    private String tituloPelicula;
-    private String correoUsuario;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-    private List<Button> selectedButacas = new ArrayList<>();
+    private String correo = MainController.getInstance().getLblCorreoUsuario();
 
-    public void initialize() {
-        // You can set these values from another method or pass them when creating the scene
-        tituloPelicula = "Immaculate";
-        correoUsuario = "user@example.com";
+    @FXML
+    private Label tituloLabel;
 
-        labelTitulo.setText(tituloPelicula);
-        loadSalaData(tituloPelicula);
+    @FXML
+    private ComboBox<String> salaComboBox;
 
-        comboBoxSala.setOnAction(event -> {
-            String selectedSala = comboBoxSala.getValue();
+    @FXML
+    private ComboBox<String> horarioComboBox;
+
+    @FXML
+    private GridPane gridLayout;
+
+    @FXML
+    private Button confirmButton;
+
+    public void initialize(String titulo) {
+        tituloLabel.setText(titulo);
+        loadSalaData(titulo);
+
+        for (int i = 0; i < 12; i++) {
+            Button butaca = new Button();
+            butaca.setPrefSize(40, 40);
+            butaca.setStyle("-fx-background-color: transparent;"); // Fondo transparente
+            Image butacaImage = new Image(getClass().getResource("/es/gestioncine/gestioncine/resources/img/butaca_libre.png").toExternalForm());
+            butaca.setGraphic(new ImageView(butacaImage));
+            butaca.setOnAction(event -> reservarButaca(butaca));
+
+            gridLayout.add(butaca, i % 4, i / 4); // Añadir butaca al GridPane (columna, fila)
+        }
+
+        salaComboBox.setOnAction(event -> {
+            String selectedSala = salaComboBox.getSelectionModel().getSelectedItem();
+            System.out.println("Sala seleccionada: " + selectedSala); // Verificar la sala seleccionada
             if (selectedSala != null) {
-                loadHorarioData(selectedSala, tituloPelicula);
+                loadHorarioData(selectedSala, titulo);
             }
         });
 
-        comboBoxHorario.setOnAction(event -> {
-            String selectedSala = comboBoxSala.getValue();
-            String selectedHorario = comboBoxHorario.getValue();
-            if (selectedSala != null && selectedHorario != null) {
-                loadButacasData(selectedSala, selectedHorario, tituloPelicula);
-            }
-        });
+        confirmButton.setOnAction(event -> {
+            String estadoReserva = "Confirmada";
+            CompletableFuture<Integer>[] futures = new CompletableFuture[2];
+            futures[0] = obtenerIdUsuario(correo);
+            futures[1] = obtenerIdPelicula(titulo);
 
-        buttonConfirmar.setOnAction(event -> confirmarReserva());
+            CompletableFuture.allOf(futures).thenAcceptAsync(result -> {
+                try {
+                    String numeroSala = salaComboBox.getSelectionModel().getSelectedItem();
+                    String horario = horarioComboBox.getSelectionModel().getSelectedItem();
+                    System.out.println("Horario seleccionado: " + horario); // Verificar el horario seleccionado
+                    reservar(futures[0].get(), futures[1].get(), numeroSala, horario, estadoReserva, contarButacasReservadas());
+                } catch (Exception e) {
+                    mostrarMensaje("Error al realizar la reserva: " + e.getMessage());
+                }
+            });
+        });
     }
 
     private void loadSalaData(String tituloPelicula) {
@@ -86,9 +104,13 @@ public class ReserveMovieController {
                 e.printStackTrace();
             }
             return salas;
-        }).thenAccept(salas -> Platform.runLater(() -> {
-            comboBoxSala.getItems().setAll(salas);
-        }));
+        }, executorService).thenAcceptAsync(salas -> {
+            Platform.runLater(() -> {
+                salaComboBox.getItems().clear();
+                salaComboBox.getItems().addAll(salas);
+                System.out.println("Salas cargadas en salaComboBox: " + salas); // Verificar las salas cargadas
+            });
+        });
     }
 
     private void loadHorarioData(String numeroSala, String tituloPelicula) {
@@ -101,6 +123,7 @@ public class ReserveMovieController {
                 out.println("GET_HORARIOS_FOR_MOVIE");
                 out.println(numeroSala);
                 out.println(tituloPelicula);
+
                 String response;
                 while ((response = in.readLine()) != null) {
                     horarios.add(response);
@@ -109,91 +132,85 @@ public class ReserveMovieController {
                 e.printStackTrace();
             }
             return horarios;
-        }).thenAccept(horarios -> Platform.runLater(() -> {
-            comboBoxHorario.getItems().setAll(horarios);
-        }));
-    }
-
-    private void loadButacasData(String numeroSala, String horario, String tituloPelicula) {
-        // Sample data for seat availability
-        Platform.runLater(() -> {
-            gridButacas.getChildren().clear();
-            selectedButacas.clear();
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 3; j++) {
-                    Button butaca = new Button();
-                    butaca.setStyle("-fx-background-color: green;");
-                    butaca.setOnAction(event -> {
-                        if (butaca.getStyle().contains("green")) {
-                            butaca.setStyle("-fx-background-color: red;");
-                            selectedButacas.add(butaca);
-                        } else {
-                            butaca.setStyle("-fx-background-color: green;");
-                            selectedButacas.remove(butaca);
-                        }
-                    });
-                    gridButacas.add(butaca, i, j);
-                }
-            }
+        }, executorService).thenAcceptAsync(horarios -> {
+            Platform.runLater(() -> {
+                horarioComboBox.getItems().clear();
+                horarioComboBox.getItems().addAll(horarios);
+                System.out.println("Horarios cargados en horarioComboBox: " + horarios); // Verificar los horarios cargados
+            });
         });
     }
 
     @FXML
-    private void confirmarReserva() {
-        if (comboBoxSala.getValue() == null || comboBoxHorario.getValue() == null || selectedButacas.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error en la reserva");
-            alert.setHeaderText(null);
-            alert.setContentText("Por favor, seleccione la sala, el horario y al menos una butaca.");
-            alert.showAndWait();
-            return;
+    private void reservarButaca(Button butaca) {
+        String currentStyle = butaca.getStyle();
+        if (currentStyle.contains("-fx-background-color: white;")) {
+            butaca.setStyle("-fx-background-color: transparent;");
+        } else {
+            butaca.setStyle("-fx-background-color: white;");
         }
+    }
 
-        CompletableFuture.runAsync(() -> {
+    private int contarButacasReservadas() {
+        int count = 0;
+        for (var node : gridLayout.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getStyle().contains("-fx-background-color: red;")) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private CompletableFuture<Integer> obtenerIdUsuario(String correo) {
+        return CompletableFuture.supplyAsync(() -> {
             try (Socket socket = new Socket(IP, PORT);
                  PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                  BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-                out.println("CONFIRM_RESERVATION");
-                out.println(correoUsuario);
-                out.println(comboBoxSala.getValue());
-                out.println(comboBoxHorario.getValue());
-                out.println(tituloPelicula);
-                out.println(selectedButacas.size());
-
-                for (Button butaca : selectedButacas) {
-                    // Assuming you have a way to identify each seat, e.g., using GridPane's row/column indices
-                    Integer row = GridPane.getRowIndex(butaca);
-                    Integer col = GridPane.getColumnIndex(butaca);
-                    out.println(row + "," + col);
-                }
-
+                out.println("GET_USER_ID");
+                out.println(correo);
                 String response = in.readLine();
-                Platform.runLater(() -> {
-                    if ("SUCCESS".equals(response)) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Reserva Confirmada");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Reserva confirmada con éxito.");
-                        alert.showAndWait();
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error en la reserva");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Hubo un error al confirmar la reserva. Inténtelo nuevamente.");
-                        alert.showAndWait();
-                    }
-                });
+                System.out.println("ID de usuario obtenido: " + response); // Verificar el ID de usuario
+                return Integer.parseInt(response);
+
             } catch (IOException e) {
                 e.printStackTrace();
-                Platform.runLater(() -> {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error en la conexión");
-                    alert.setHeaderText(null);
-                    alert.setContentText("No se pudo conectar con el servidor. Inténtelo nuevamente.");
-                    alert.showAndWait();
-                });
+                throw new RuntimeException("Error al obtener el ID de usuario.");
             }
+        }, executorService);
+    }
+
+    private CompletableFuture<Integer> obtenerIdPelicula(String titulo) {
+        return CompletableFuture.supplyAsync(() -> {
+            try (Socket socket = new Socket(IP, PORT);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+                out.println("GET_MOVIE_ID");
+                out.println(titulo);
+                String response = in.readLine();
+                System.out.println("ID de película obtenido: " + response); // Verificar el ID de película
+                return Integer.parseInt(response);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error al obtener el ID de película.");
+            }
+        }, executorService);
+    }
+
+    private void reservar(int idUsuario, int idPelicula, String sala, String hora, String estadoReserva, int butacasReservadas) {
+        // Aquí, puedes implementar la lógica para proceder con el pago y la reserva
+        System.out.println("Reserva realizada con éxito. Usuario: " + idUsuario + ", Película: " + idPelicula + ", Sala: " + sala + ", Hora: " + hora + ", Butacas: " + butacasReservadas);
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        Platform.runLater(() -> {
+            // Aquí, puedes implementar la lógica para mostrar un mensaje al usuario, por ejemplo, con una alerta
+            System.out.println(mensaje);
         });
     }
 }

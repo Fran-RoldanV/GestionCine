@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="es.gestioncine.gestioncine.controllers.MovieController"
-      alignment="CENTER"
-      spacing="20"
-      style="-fx-padding: 20px; -fx-background-color: #2C2C2C;">
+<StackPane alignment="CENTER" style="-fx-background-color: #393E46;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.ReserveMovieController">
+    <VBox alignment="CENTER" spacing="20" style="-fx-padding: 40px 60px 60px 60px;">
+        <Label style="-fx-text-fill: #EEEEEE; -fx-font-size: 36px; -fx-font-weight: bold;" text="Reservar Sala" />
 
-    <Label text="RESERVAR SALA" style="-fx-text-fill: white; -fx-font-size: 26px;" />
-    <Label fx:id="labelTitulo" text="Titulo" style="-fx-text-fill: white; -fx-font-size: 22px;" />
+        <Label fx:id="tituloLabel" style="-fx-text-fill: #EEEEEE; -fx-font-size: 18px;" text="Calladita" />
 
-    <ComboBox fx:id="comboBoxSala" promptText="Seleccione Sala" style="-fx-background-color: #444444; -fx-text-fill: white;"/>
-    <ComboBox fx:id="comboBoxHorario" promptText="Seleccione Horario" style="-fx-background-color: #444444; -fx-text-fill: white;"/>
+        <VBox alignment="CENTER" spacing="10">
+            <ComboBox fx:id="salaComboBox" prefHeight="51.0" prefWidth="320.0" promptText="Selecciona una Sala" style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-font-size: 16px;" />
+            <ComboBox fx:id="horarioComboBox" prefHeight="50.0" prefWidth="320.0" promptText="Selecciona un Horario" style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-font-size: 16px;" />
+        </VBox>
 
-    <GridPane fx:id="gridButacas" alignment="CENTER" hgap="10" vgap="10" style="-fx-padding: 20px;">
-        <!-- Seats will be added dynamically -->
-    </GridPane>
+        <GridPane fx:id="gridLayout" alignment="CENTER" hgap="20" vgap="20">
+            <padding>
+                <Insets bottom="20" left="20" right="20" top="20" />
+            </padding>
+        </GridPane>
 
-    <Button text="PROCEDER CON EL PAGO" fx:id="buttonConfirmar" onAction="#confirmarReserva"
-            style="-fx-background-color: #00A5E0; -fx-text-fill: white; -fx-font-size: 18px;" />
-</VBox>
+        <Button fx:id="confirmButton" prefWidth="300" style="-fx-background-color: #00ADB5; -fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;" text="Proceder al Pago">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+    </VBox>
+</StackPane>
