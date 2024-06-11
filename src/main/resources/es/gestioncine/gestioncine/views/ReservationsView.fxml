@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
-    <Text text="Página de Reservas" style="-fx-font-size: 24px;"/>
-    <Text text="Aquí puedes agregar información relevante para la página de reservas." style="-fx-font-size: 14px;"/>
-</VBox>
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.ReserveListController" style="-fx-background-color: #393E46;" alignment="CENTER">
+    <VBox alignment="TOP_LEFT" spacing="10" style="-fx-padding: 60px; -fx-max-width: 600px;">
+        <padding>
+            <Insets top="16" right="16" bottom="16" left="16"/>
+        </padding>
+
+        <Label text="RESERVAS" style="-fx-text-fill: #EEEEEE; -fx-font-size: 26px; -fx-font-weight: bold;"/>
+        <Label text="Todas las reservas realizadas" style="-fx-text-fill: #EEEEEE; -fx-font-size: 16px;"/>
+
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-padding: 32 0 0 0;">
+            <VBox fx:id="tableLayout" spacing="8">
+                <!-- Aquí se agregarán las filas dinámicamente -->
+            </VBox>
+        </ScrollPane>
+    </VBox>
+</StackPane>

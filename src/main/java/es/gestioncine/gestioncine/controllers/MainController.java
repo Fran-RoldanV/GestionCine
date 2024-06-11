@@ -80,7 +80,12 @@ public class MainController {
 
     @FXML
     public void showReservas() {
-        setPage("/es/gestioncine/gestioncine/views/ReservationsView.fxml");
+        if(MainController.getInstance().getLblCorreoUsuario().isEmpty()){
+            setPage("/es/gestioncine/gestioncine/views/LoginView.fxml");
+        }
+        else {
+            setPage("/es/gestioncine/gestioncine/views/ReservationsView.fxml");
+        }
     }
 
     @FXML
@@ -112,7 +117,7 @@ public class MainController {
         setPage("/es/gestioncine/gestioncine/views/ForgotPasswordView.fxml");
     }
 
-    public void showReserveMovie() {
+    public void showReserveMovie(String tituloLabel) {
         setPage("/es/gestioncine/gestioncine/views/ReserveView.fxml");
     }
 

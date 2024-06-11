@@ -1,5 +1,6 @@
 package es.gestioncine.gestioncine.controllers;
 
+import es.gestioncine.gestioncine.Configuration;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
@@ -19,8 +20,8 @@ import java.util.concurrent.Executors;
 public class MovieController implements OnItemClickListener {
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
-    private static final String IP = "192.168.1.111";
-    private static final int PORT = 12345;
+    private static final String IP = Configuration.IP;
+    private static final int PORT = Configuration.PORT;
 
     @FXML
     private HBox mayor18;

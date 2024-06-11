@@ -1,5 +1,6 @@
 package es.gestioncine.gestioncine.controllers;
 
+import es.gestioncine.gestioncine.Configuration;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,8 +17,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MovieDataController {
-    private static final String IP = "192.168.1.111";
-    private static final int PORT = 12345;
+    private static final String IP = Configuration.IP;
+    private static final int PORT = Configuration.PORT;
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
@@ -52,7 +53,7 @@ public class MovieDataController {
         botonReservar.setOnAction(event -> {
             // Lógica para redirigir a la página de reserva
             System.out.println("Redirigir a la página de reserva para la película: " + tituloLabel.getText());
-            MainController.getInstance().showReserveMovie();
+            MainController.getInstance().showReserveMovie(tituloLabel.getText());
         });
     }
 

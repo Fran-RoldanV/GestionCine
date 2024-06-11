@@ -1,5 +1,6 @@
 package es.gestioncine.gestioncine.controllers;
 
+import es.gestioncine.gestioncine.Configuration;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,8 +19,8 @@ import java.util.concurrent.Executors;
 
 public class ForgotPasswordController {
 
-    private static final String IP = "192.168.1.111";
-    private static final int PORT = 12345;
+    private static final String IP = Configuration.IP;
+    private static final int PORT = Configuration.PORT;
 
     @FXML
     private TextField campoUser;

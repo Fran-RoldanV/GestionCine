@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="es.gestioncine.gestioncine.controllers.MovieController"
+      alignment="CENTER"
+      spacing="20"
+      style="-fx-padding: 20px; -fx-background-color: #2C2C2C;">
+
+    <Label text="RESERVAR SALA" style="-fx-text-fill: white; -fx-font-size: 26px;" />
+    <Label fx:id="labelTitulo" text="Titulo" style="-fx-text-fill: white; -fx-font-size: 22px;" />
+
+    <ComboBox fx:id="comboBoxSala" promptText="Seleccione Sala" style="-fx-background-color: #444444; -fx-text-fill: white;"/>
+    <ComboBox fx:id="comboBoxHorario" promptText="Seleccione Horario" style="-fx-background-color: #444444; -fx-text-fill: white;"/>
+
+    <GridPane fx:id="gridButacas" alignment="CENTER" hgap="10" vgap="10" style="-fx-padding: 20px;">
+        <!-- Seats will be added dynamically -->
+    </GridPane>
+
+    <Button text="PROCEDER CON EL PAGO" fx:id="buttonConfirmar" onAction="#confirmarReserva"
+            style="-fx-background-color: #00A5E0; -fx-text-fill: white; -fx-font-size: 18px;" />
+</VBox>
