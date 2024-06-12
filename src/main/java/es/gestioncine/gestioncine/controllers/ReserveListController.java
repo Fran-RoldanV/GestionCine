@@ -79,14 +79,14 @@ public class ReserveListController {
                 HBox row = new HBox();
                 for (String field : fields) {
                     Label label = new Label(field);
-                    label.setStyle("-fx-padding: 8px;");
+                    label.setStyle("-fx-padding: 8px; -fx-background-color: #393E46; -fx-text-fill: white;");
                     row.getChildren().add(label);
                 }
                 tableLayout.getChildren().add(row);
             }
         } else {
             Label label = new Label("No hay reservas disponibles");
-            label.setStyle("-fx-padding: 8px;");
+            label.setStyle("-fx-padding: 8px; -fx-background-color: #393E46; -fx-text-fill: white;");
             tableLayout.getChildren().add(label);
         }
     }
