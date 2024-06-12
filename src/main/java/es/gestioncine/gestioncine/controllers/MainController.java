@@ -1,5 +1,6 @@
 package es.gestioncine.gestioncine.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -98,10 +99,6 @@ public class MainController {
         setPage("/es/gestioncine/gestioncine/views/DiscountView.fxml");
     }
 
-    @FXML
-    public void showAjustes() {
-        setPage("/es/gestioncine/gestioncine/views/SettingsView.fxml");
-    }
 
     @FXML
     public void showIniciarSesion() {
@@ -117,8 +114,6 @@ public class MainController {
         setPage("/es/gestioncine/gestioncine/views/ForgotPasswordView.fxml");
     }
 
-
-
     public void showReserveMovie(String tituloLabel) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/es/gestioncine/gestioncine/views/ReserveView.fxml"));
@@ -133,16 +128,18 @@ public class MainController {
     }
 
     public void showPayment(int idUsuario, int idPelicula, String sala, String hora, String estadoReserva, int butacasReservadas) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/es/gestioncine/gestioncine/views/PaymentView.fxml"));
-            Parent newLoadedPane = loader.load();
-            PaymentController controller = loader.getController();
-            controller.initialize(idUsuario,idPelicula,sala,hora,estadoReserva,butacasReservadas);
-            contentPane.getChildren().clear();
-            contentPane.getChildren().add(newLoadedPane);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/es/gestioncine/gestioncine/views/PaymentView.fxml"));
+                Parent newLoadedPane = loader.load();
+                PaymentController controller = loader.getController();
+                controller.initialize(idUsuario, idPelicula, sala, hora, estadoReserva, butacasReservadas);
+                contentPane.getChildren().clear();
+                contentPane.getChildren().add(newLoadedPane);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @FXML
@@ -173,13 +170,15 @@ public class MainController {
             Parent newLoadedPane = loader.load();
             contentPane.getChildren().clear();
             contentPane.getChildren().add(newLoadedPane);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    // Method to update the session status
-    public void actualizarEstadoSesion(boolean sesionIniciada, String correo) {
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+// Method to update the session status
+public void actualizarEstadoSesion(boolean sesionIniciada, String correo) {
+    Platform.runLater(() -> {
         btnCerrarSesion.setDisable(!sesionIniciada);
         btnCerrarSesion.setVisible(sesionIniciada);
 
@@ -191,5 +190,6 @@ public class MainController {
 
         btnRegistrarse.setDisable(sesionIniciada);
         btnRegistrarse.setVisible(!sesionIniciada);
-    }
+    });
+}
 }

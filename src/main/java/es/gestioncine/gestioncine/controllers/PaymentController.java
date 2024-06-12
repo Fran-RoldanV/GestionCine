@@ -1,5 +1,6 @@
 package es.gestioncine.gestioncine.controllers;
 
+import es.gestioncine.gestioncine.Configuration;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -16,6 +17,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class PaymentController {
+
+    private String IP = Configuration.IP;
 
     @FXML
     private TextField emailFactura;
@@ -124,7 +127,7 @@ public class PaymentController {
             String response = "";
 
             try {
-                Socket socket = new Socket("IP_DEL_SERVIDOR", 12345);  // Reemplaza con tu IP y puerto
+                Socket socket = new Socket(IP, 12345);  // Reemplaza con tu IP y puerto
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -160,7 +163,7 @@ public class PaymentController {
         executorService.execute(() -> {
             String response = "";
             try {
-                Socket socket = new Socket("IP_DEL_SERVIDOR", 12345);  // Reemplaza con tu IP y puerto
+                Socket socket = new Socket(IP, 12345);  // Reemplaza con tu IP y puerto
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
