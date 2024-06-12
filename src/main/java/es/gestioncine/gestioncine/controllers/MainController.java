@@ -132,6 +132,19 @@ public class MainController {
         }
     }
 
+    public void showPayment(int idUsuario, int idPelicula, String sala, String hora, String estadoReserva, int butacasReservadas) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/es/gestioncine/gestioncine/views/PaymentView.fxml"));
+            Parent newLoadedPane = loader.load();
+            PaymentController controller = loader.getController();
+            controller.initialize(idUsuario,idPelicula,sala,hora,estadoReserva,butacasReservadas);
+            contentPane.getChildren().clear();
+            contentPane.getChildren().add(newLoadedPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void cerrarSesion(ActionEvent event) {
         System.out.println("Hola");

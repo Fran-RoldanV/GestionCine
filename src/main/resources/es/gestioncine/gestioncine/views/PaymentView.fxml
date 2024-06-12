@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="es.gestioncine.gestioncine.controllers.PaymentController"
+      spacing="10" alignment="center" style="-fx-padding: 20; -fx-background-color: #282c34;">
+
+    <Label text="Gestión Cine" style="-fx-text-fill: #FFFFFF; -fx-font-size: 32; -fx-font-weight: bold;"/>
+
+    <Label text="Seleccionar Método de Pago" style="-fx-text-fill: #FFFFFF; -fx-font-size: 14;"/>
+
+    <TextField fx:id="emailFactura" promptText="Correo para la factura" style="-fx-text-fill: #FFFFFF;"/>
+
+    <ComboBox fx:id="spinnerPaymentMethod">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Tarjeta de crédito"/>
+                <String fx:value="PayPal"/>
+                <String fx:value="Bizum"/>
+                <String fx:value="Cobro en taquilla"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <VBox fx:id="layoutCreditCard" spacing="10" visible="false" managed="false">
+        <TextField fx:id="creditCardNumber" promptText="Número de tarjeta"/>
+        <TextField fx:id="creditCardName" promptText="Nombre en la tarjeta"/>
+        <TextField fx:id="creditCardExpiration" promptText="Fecha de expiración"/>
+        <TextField fx:id="creditCardCVV" promptText="CVV"/>
+    </VBox>
+
+    <VBox fx:id="layoutPaypal" spacing="10" visible="false" managed="false">
+        <TextField fx:id="paypalEmail" promptText="Correo electrónico"/>
+        <TextField fx:id="paypalPassword" promptText="Contraseña"/>
+    </VBox>
+
+    <VBox fx:id="layoutBizum" spacing="10" visible="false" managed="false">
+        <TextField fx:id="bizumPhone" promptText="Número de teléfono"/>
+    </VBox>
+
+    <VBox fx:id="layoutCashDesk" spacing="10" visible="false" managed="false">
+        <Label text="Pagar en taquilla"/>
+    </VBox>
+
+    <Button fx:id="buttonConfirmPayment" text="Confirmar Pago" style="-fx-background-color: #00ADB5;"/>
+</VBox>

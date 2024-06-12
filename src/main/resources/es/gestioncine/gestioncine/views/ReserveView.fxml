@@ -22,7 +22,7 @@
             </padding>
         </GridPane>
 
-        <Button fx:id="confirmButton" prefWidth="300" style="-fx-background-color: #00ADB5; -fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;" text="Proceder al Pago">
+        <Button fx:id="confirmButton" onAction="#handleConfirmButtonAction" prefWidth="300" style="-fx-background-color: #00ADB5; -fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;" text="Proceder al Pago">
          <font>
             <Font size="14.0" />
          </font></Button>
