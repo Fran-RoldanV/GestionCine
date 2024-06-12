@@ -2,7 +2,6 @@ package es.gestioncine.gestioncine.controllers;
 
 import es.gestioncine.gestioncine.Configuration;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -10,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.ListCell;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,9 +46,18 @@ public class ReserveMovieController {
     @FXML
     private Button confirmButton;
 
+    @FXML
+    private Label errorLabel;
+
     public void initialize(String titulo) {
         tituloLabel.setText(titulo);
         loadSalaData(titulo);
+
+        // Apply custom styles to the items in ComboBox
+        salaComboBox.setButtonCell(createStyledListCell());
+        salaComboBox.setCellFactory(listView -> createStyledListCell());
+        horarioComboBox.setButtonCell(createStyledListCell());
+        horarioComboBox.setCellFactory(listView -> createStyledListCell());
 
         for (int i = 0; i < 12; i++) {
             Button butaca = new Button();
@@ -70,22 +79,24 @@ public class ReserveMovieController {
         });
 
         confirmButton.setOnAction(event -> {
-            String estadoReserva = "Confirmada";
-            CompletableFuture<Integer>[] futures = new CompletableFuture[2];
-            futures[0] = obtenerIdUsuario(correo);
-            futures[1] = obtenerIdPelicula(titulo);
-
-            CompletableFuture.allOf(futures).thenAcceptAsync(result -> {
-                try {
-                    String numeroSala = salaComboBox.getSelectionModel().getSelectedItem();
-                    String horario = horarioComboBox.getSelectionModel().getSelectedItem();
-                    System.out.println("Horario seleccionado: " + horario); // Verificar el horario seleccionado
-                    reservar(futures[0].get(), futures[1].get(), numeroSala, horario, estadoReserva, contarButacasReservadas());
-                } catch (Exception e) {
-
-                }
-            });
+            handleConfirmButtonAction();
         });
+    }
+
+    private ListCell<String> createStyledListCell() {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-font-size: 16px;");
+                    setPrefHeight(50); // Set consistent height
+                }
+            }
+        };
     }
 
     private void loadSalaData(String tituloPelicula) {
@@ -145,10 +156,10 @@ public class ReserveMovieController {
     @FXML
     private void reservarButaca(Button butaca) {
         String currentStyle = butaca.getStyle();
-        if (currentStyle.contains("-fx-background-color: white;")) {
+        if (currentStyle.contains("-fx-background-color: #222831;")) {
             butaca.setStyle("-fx-background-color: transparent;");
         } else {
-            butaca.setStyle("-fx-background-color: white;");
+            butaca.setStyle("-fx-background-color: #222831;");
         }
     }
 
@@ -157,7 +168,7 @@ public class ReserveMovieController {
         for (var node : gridLayout.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
-                if (button.getStyle().contains("-fx-background-color: red;")) {
+                if (button.getStyle().contains("-fx-background-color: #222831;")) {
                     count++;
                 }
             }
@@ -204,27 +215,31 @@ public class ReserveMovieController {
     }
 
     private void reservar(int idUsuario, int idPelicula, String sala, String hora, String estadoReserva, int butacasReservadas) {
-        MainController.getInstance().showPayment(idUsuario,idPelicula,sala,hora,estadoReserva,butacasReservadas);
+        MainController.getInstance().showPayment(idUsuario, idPelicula, sala, hora, estadoReserva, butacasReservadas);
         System.out.println("Reserva realizada con éxito. Usuario: " + idUsuario + ", Película: " + idPelicula + ", Sala: " + sala + ", Hora: " + hora + ", Butacas: " + butacasReservadas);
     }
 
     @FXML
     private void handleConfirmButtonAction() {
-        String estadoReserva = "Confirmada";
-        CompletableFuture<Integer>[] futures = new CompletableFuture[2];
-        futures[0] = obtenerIdUsuario(correo);
-        futures[1] = obtenerIdPelicula(tituloLabel.getText());
+        if (salaComboBox.getSelectionModel().isEmpty() || horarioComboBox.getSelectionModel().isEmpty()) {
+            errorLabel.setText("Debe seleccionar una sala y un horario para reservar.");
+        } else {
+            errorLabel.setText("");
+            String estadoReserva = "Confirmada";
+            CompletableFuture<Integer>[] futures = new CompletableFuture[2];
+            futures[0] = obtenerIdUsuario(correo);
+            futures[1] = obtenerIdPelicula(tituloLabel.getText());
 
-        CompletableFuture.allOf(futures).thenAcceptAsync(result -> {
-            try {
-                String numeroSala = salaComboBox.getSelectionModel().getSelectedItem();
-                String horario = horarioComboBox.getSelectionModel().getSelectedItem();
-                System.out.println("Horario seleccionado: " + horario); // Verificar el horario seleccionado
-                reservar(futures[0].get(), futures[1].get(), numeroSala, horario, estadoReserva, contarButacasReservadas());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            CompletableFuture.allOf(futures).thenAcceptAsync(result -> {
+                try {
+                    String numeroSala = salaComboBox.getSelectionModel().getSelectedItem();
+                    String horario = horarioComboBox.getSelectionModel().getSelectedItem();
+                    System.out.println("Horario seleccionado: " + horario); // Verificar el horario seleccionado
+                    reservar(futures[0].get(), futures[1].get(), numeroSala, horario, estadoReserva, contarButacasReservadas());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
-
 }

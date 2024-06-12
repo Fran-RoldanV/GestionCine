@@ -2,11 +2,9 @@ package es.gestioncine.gestioncine.controllers;
 
 import es.gestioncine.gestioncine.Configuration;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Alert;
+import javafx.util.Callback;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,9 +17,10 @@ import java.util.concurrent.Executors;
 public class PaymentController {
 
     private String IP = Configuration.IP;
+    private int PORT = Configuration.PORT;
 
     @FXML
-    private TextField emailFactura;
+    private String emailFactura = MainController.getInstance().getLblCorreoUsuario();
 
     @FXML
     private ComboBox<String> spinnerPaymentMethod;
@@ -54,9 +53,42 @@ public class PaymentController {
         this.hora = hora;
         this.estadoReserva = estadoReserva;
         this.butacasReservadas = butacasReservadas;
+
+        // Configure spinnerPaymentMethod ComboBox
         spinnerPaymentMethod.setOnAction(event -> {
             String selectedMethod = spinnerPaymentMethod.getValue();
             mostrarLayout(selectedMethod);
+        });
+
+        spinnerPaymentMethod.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                return new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                        } else {
+                            setText(item);
+                            setStyle("-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-pref-height: 50.0;");
+                        }
+                    }
+                };
+            }
+        });
+
+        spinnerPaymentMethod.setButtonCell(new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-pref-height: 50.0;");
+                }
+            }
         });
 
         buttonConfirmPayment.setOnAction(event -> {
@@ -100,7 +132,7 @@ public class PaymentController {
     }
 
     private boolean validarCampos() {
-        if (emailFactura.getText().trim().isEmpty()) {
+        if (emailFactura.isEmpty()) {
             return false;
         }
 
@@ -127,7 +159,7 @@ public class PaymentController {
             String response = "";
 
             try {
-                Socket socket = new Socket(IP, 12345);  // Reemplaza con tu IP y puerto
+                Socket socket = new Socket(IP, PORT);  // Reemplaza con tu IP y puerto
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -163,7 +195,7 @@ public class PaymentController {
         executorService.execute(() -> {
             String response = "";
             try {
-                Socket socket = new Socket(IP, 12345);  // Reemplaza con tu IP y puerto
+                Socket socket = new Socket(IP, PORT);  // Reemplaza con tu IP y puerto
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 

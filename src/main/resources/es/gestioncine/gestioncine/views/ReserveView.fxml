@@ -12,7 +12,7 @@
         <Label fx:id="tituloLabel" style="-fx-text-fill: #EEEEEE; -fx-font-size: 18px;" text="Calladita" />
 
         <VBox alignment="CENTER" spacing="10">
-            <ComboBox fx:id="salaComboBox" prefHeight="51.0" prefWidth="320.0" promptText="Selecciona una Sala" style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-font-size: 16px;" />
+            <ComboBox fx:id="salaComboBox" prefHeight="50.0" prefWidth="320.0" promptText="Selecciona una Sala" style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-font-size: 16px;" />
             <ComboBox fx:id="horarioComboBox" prefHeight="50.0" prefWidth="320.0" promptText="Selecciona un Horario" style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-font-size: 16px;" />
         </VBox>
 
@@ -22,9 +22,11 @@
             </padding>
         </GridPane>
 
-        <Button fx:id="confirmButton" onAction="#handleConfirmButtonAction" prefWidth="300" style="-fx-background-color: #00ADB5; -fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;" text="Proceder al Pago">
-         <font>
-            <Font size="14.0" />
-         </font></Button>
+        <Button fx:id="confirmButton" onAction="#handleConfirmButtonAction" prefHeight="50.0" prefWidth="320.0" style="-fx-background-color: #00ADB5; -fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;" text="Proceder al Pago">
+            <font>
+                <Font size="14.0" />
+            </font></Button>
+
+        <Label fx:id="errorLabel" style="-fx-text-fill: red; -fx-font-size: 16px;" text="" />
     </VBox>
 </StackPane>
