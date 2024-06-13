@@ -3,7 +3,9 @@ package es.gestioncine.gestioncine.controllers;
 import es.gestioncine.gestioncine.Configuration;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,12 +17,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class AddCommentController {
 
     private final String IP = Configuration.IP;
-
     private final int PORT = Configuration.PORT;
 
     @FXML
@@ -31,6 +34,9 @@ public class AddCommentController {
 
     @FXML
     private Button btnSubmit;
+
+    @FXML
+    private ComboBox<String> comboBox;
 
     private String correo;
     private int selectedMovieId;
@@ -44,6 +50,22 @@ public class AddCommentController {
     private void initialize() {
         initializeRatingBox();
         btnSubmit.setOnAction(event -> submitComment());
+
+        // Load movie names into ComboBox
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<String> movieNames = fetchMovieNamesFromServer();
+            Platform.runLater(() -> {
+                if (movieNames != null) {
+                    comboBox.getItems().addAll(movieNames);
+                } else {
+                    showAlert("Error", "No se pudieron cargar los nombres de las películas. Por favor, inténtalo de nuevo más tarde.");
+                }
+            });
+        });
+
+        comboBox.setOnAction(event -> {
+            // Handle movie selection change if needed
+        });
     }
 
     private void initializeRatingBox() {
@@ -72,14 +94,19 @@ public class AddCommentController {
 
     private void submitComment() {
         String comment = etComment.getText();
+        String selectedMovie = comboBox.getValue();
+        if (selectedMovie == null) {
+            showAlert("Error", "Por favor, selecciona una película.");
+            return;
+        }
 
         Executors.newSingleThreadExecutor().execute(() -> {
             String result = submitCommentToServer(comment, currentRating);
             Platform.runLater(() -> {
                 if ("INSERT_COMMENT_SUCCESS".equals(result)) {
-                    ((Stage) btnSubmit.getScene().getWindow()).close();
+                    ((Stage) btnSubmit.getScene().getWindow()).close(); // Cierra la ventana al enviar el comentario exitosamente.
                 } else {
-                    // Show error message
+                    showAlert("Error", "No se pudo añadir el comentario. Por favor, inténtalo de nuevo más tarde.");
                 }
             });
         });
@@ -110,5 +137,34 @@ public class AddCommentController {
         }
 
         return response;
+    }
+
+    private List<String> fetchMovieNamesFromServer() {
+        List<String> movieNames = new ArrayList<>();
+
+        try (Socket socket = new Socket(IP, PORT);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+            out.println("GET_MOVIE_NAME");
+
+            String line;
+            while ((line = in.readLine()) != null && !line.equals("END")) {
+                movieNames.add(line);
+            }
+
+        } catch (IOException e) {
+            movieNames = null;
+        }
+
+        return movieNames;
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

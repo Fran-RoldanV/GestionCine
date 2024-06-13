@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -91,9 +92,14 @@ public class CommentViewController {
                 AnchorPane pane = loader.load();
                 AddCommentController controller = loader.getController();
                 controller.setCorreo(email); // replace with the actual email
+                Image icon = new Image(getClass().getResourceAsStream("/es/gestioncine/gestioncine/resources/img/icon.png"));
+
                 Stage stage = new Stage();
+                stage.getIcons().add(icon);
                 stage.setScene(new Scene(pane));
-                stage.setTitle("Add Comment");
+                stage.setTitle("Añadir reseña");
+                stage.setResizable(false);
+
                 stage.show();
             } else {
                 MainController.getInstance().showIniciarSesion();

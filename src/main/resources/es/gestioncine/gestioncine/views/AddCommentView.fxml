@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="315.0" prefWidth="556.0" style="-fx-background-color: #393E46; -fx-padding: 20px;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="es.gestioncine.gestioncine.controllers.AddCommentController">
-    <TextField fx:id="etComment" layoutX="39.0" layoutY="38.0" prefHeight="161.0" prefWidth="484.0" promptText="Write your comment here..." style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE;" />
-    <HBox fx:id="ratingBox" layoutX="10.0" layoutY="50.0" spacing="5" style="-fx-background-color: #393E46;" />
-    <Button fx:id="btnSubmit" layoutX="39.0" layoutY="239.0" prefHeight="39.0" prefWidth="484.0" style="-fx-background-color: #00ADB5; -fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;" text="Submit" />
+    <TextField fx:id="etComment" layoutX="39.0" layoutY="38.0" prefHeight="161.0" prefWidth="484.0" promptText="Escribe tu comentario aquí" style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE;" />
+    <AnchorPane layoutX="39.0" layoutY="209.0" prefWidth="484.0">
+        <HBox spacing="10" style="-fx-background-color: #393E46;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <ComboBox fx:id="comboBox" prefHeight="39.0" prefWidth="260.0" promptText="Selecciona una película" style="-fx-background-color: #222831; -fx-text-fill: #EEEEEE;" />
+            <HBox fx:id="ratingBox" spacing="5" style="-fx-background-color: #393E46;" />
+        </HBox>
+    </AnchorPane>
+    <Button fx:id="btnSubmit" layoutX="39.0" layoutY="269.0" prefHeight="39.0" prefWidth="484.0" style="-fx-background-color: #00ADB5; -fx-text-fill: #EEEEEE; -fx-font-size: 18px; -fx-font-weight: bold;" text="Añadir comentario" />
 </AnchorPane>
