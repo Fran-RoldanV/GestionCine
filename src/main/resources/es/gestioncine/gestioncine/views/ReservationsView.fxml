@@ -4,17 +4,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane alignment="CENTER" style="-fx-background-color: #393E46;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.ReserveListController">
+<StackPane alignment="CENTER" prefHeight="611.0" prefWidth="330.0" style="-fx-background-color: #393E46;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.ReserveListController">
     <VBox alignment="TOP_LEFT" spacing="10" style="-fx-padding: 60px; -fx-max-width: 600px; -fx-padding: 8px; -fx-background-color: #393E46; -fx-text-fill: white;">
         <padding>
             <Insets bottom="16" left="16" right="16" top="16" />
         </padding>
 
-        <Label style="-fx-text-fill: #EEEEEE; -fx-font-size: 26px; -fx-font-weight: bold;" text="RESERVAS" />
-        <Label style="-fx-text-fill: #EEEEEE; -fx-font-size: 16px;" text="Todas las reservas realizadas" />
+        <Label prefHeight="38.0" prefWidth="330.0" style="-fx-text-fill: #EEEEEE; -fx-font-size: 26px; -fx-font-weight: bold;" text="RESERVAS" />
+        <Label prefHeight="25.0" prefWidth="319.0" style="-fx-text-fill: #EEEEEE; -fx-font-size: 16px;" text="Todas las reservas realizadas" />
 
-        <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-padding: 32 0 0 0; -fx-padding: 8px; -fx-background-color: #393E46; -fx-text-fill: white">
-            <VBox fx:id="tableLayout" prefHeight="177.0" prefWidth="185.0" spacing="8" style="-fx-padding: 8px; -fx-background-color: #393E46;">
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="550.0" prefWidth="314.0" style="-fx-padding: 32 0 0 0; -fx-padding: 8px; -fx-background-color: #222831; -fx-text-fill: white;">
+            <VBox fx:id="tableLayout" prefHeight="537.0" prefWidth="285.0" spacing="8" style="-fx-padding: 8px; -fx-background-color: #222831;">
                 <!-- Aquí se agregarán las filas dinámicamente -->
             </VBox>
         </ScrollPane>

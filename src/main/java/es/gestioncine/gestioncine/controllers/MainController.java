@@ -99,7 +99,6 @@ public class MainController {
         setPage("/es/gestioncine/gestioncine/views/DiscountView.fxml");
     }
 
-
     @FXML
     public void showIniciarSesion() {
         setPage("/es/gestioncine/gestioncine/views/LoginView.fxml");
@@ -144,7 +143,7 @@ public class MainController {
 
     @FXML
     public void cerrarSesion(ActionEvent event) {
-        System.out.println("Hola");
+        System.out.println("Cerrar Sesión button clicked"); // Debug print statement
         actualizarEstadoSesion(false, null);
         showHome(); // Show home view after logging out
     }
@@ -170,26 +169,32 @@ public class MainController {
             Parent newLoadedPane = loader.load();
             contentPane.getChildren().clear();
             contentPane.getChildren().add(newLoadedPane);
-
-    } catch (IOException e) {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 
-// Method to update the session status
-public void actualizarEstadoSesion(boolean sesionIniciada, String correo) {
-    Platform.runLater(() -> {
-        btnCerrarSesion.setDisable(!sesionIniciada);
-        btnCerrarSesion.setVisible(sesionIniciada);
+    // Method to update the session status
+    public void actualizarEstadoSesion(boolean sesionIniciada, String correo) {
+        Platform.runLater(() -> {
+            btnCerrarSesion.setDisable(!sesionIniciada);
+            btnCerrarSesion.setVisible(sesionIniciada);
 
-        lblCorreoUsuario.setVisible(sesionIniciada);
-        lblCorreoUsuario.setText(sesionIniciada ? correo : "");
+            lblCorreoUsuario.setVisible(sesionIniciada);
+            lblCorreoUsuario.setText(sesionIniciada ? correo : "");
 
-        btnIniciarSesion.setDisable(sesionIniciada);
-        btnIniciarSesion.setVisible(!sesionIniciada);
+            btnIniciarSesion.setDisable(sesionIniciada);
+            btnIniciarSesion.setVisible(!sesionIniciada);
 
-        btnRegistrarse.setDisable(sesionIniciada);
-        btnRegistrarse.setVisible(!sesionIniciada);
-    });
-}
+            btnRegistrarse.setDisable(sesionIniciada);
+            btnRegistrarse.setVisible(!sesionIniciada);
+
+            // Debugging print statements
+            System.out.println("Actualizar estado sesión:");
+            System.out.println("btnCerrarSesion - Disabled: " + btnCerrarSesion.isDisabled() + ", Visible: " + btnCerrarSesion.isVisible());
+            System.out.println("lblCorreoUsuario - Visible: " + lblCorreoUsuario.isVisible() + ", Text: " + lblCorreoUsuario.getText());
+            System.out.println("btnIniciarSesion - Disabled: " + btnIniciarSesion.isDisabled() + ", Visible: " + btnIniciarSesion.isVisible());
+            System.out.println("btnRegistrarse - Disabled: " + btnRegistrarse.isDisabled() + ", Visible: " + btnRegistrarse.isVisible());
+        });
+    }
 }
