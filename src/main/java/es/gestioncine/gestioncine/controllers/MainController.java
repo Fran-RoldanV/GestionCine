@@ -91,7 +91,7 @@ public class MainController {
 
     @FXML
     public void showCriticas() {
-        setPage("/es/gestioncine/gestioncine/views/ReviewsView.fxml");
+        setPage("/es/gestioncine/gestioncine/views/CommentView.fxml");
     }
 
     @FXML
