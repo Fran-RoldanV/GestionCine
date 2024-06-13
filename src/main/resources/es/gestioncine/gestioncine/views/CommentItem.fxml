@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane style="-fx-background-color: #393E46;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.CommentItemController">
-    <HBox alignment="CENTER" style="-fx-padding: 20px; -fx-background-color: #393E46;">
-        <VBox spacing="10">
+    <HBox alignment="CENTER" style="-fx-padding: 0; -fx-background-color: #393E46;">
+        <VBox spacing="10" style="-fx-padding: 10px;">
             <Label fx:id="userName" prefHeight="30.0" prefWidth="531.0" style="-fx-text-fill: #EEEEEE; -fx-font-size: 20px; -fx-font-weight: bold;" />
             <HBox fx:id="ratingBox" prefHeight="42.0" prefWidth="469.0" spacing="5" />
             <Label fx:id="commentText" maxWidth="500.0" prefHeight="53.0" prefWidth="469.0" style="-fx-text-fill: #EEEEEE; -fx-font-size: 16px;" wrapText="true" />

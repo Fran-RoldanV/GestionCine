@@ -107,6 +107,7 @@ public class AddCommentController {
             String result = submitCommentToServer(comment, currentRating);
             Platform.runLater(() -> {
                 if ("INSERT_COMMENT_SUCCESS".equals(result)) {
+                    MainController.getInstance().showCriticas();
                     ((Stage) btnSubmit.getScene().getWindow()).close();
                 } else {
                     showAlert("Error", "No se pudo añadir el comentario. Por favor, inténtalo de nuevo más tarde.");
