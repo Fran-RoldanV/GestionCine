@@ -3,10 +3,7 @@ package es.gestioncine.gestioncine.controllers;
 import es.gestioncine.gestioncine.Configuration;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -39,17 +36,23 @@ public class AddCommentController {
     private ComboBox<String> comboBox;
 
     private String correo;
-    private int selectedMovieId;
+    private int MovieId;
+    private int UserId; // Nueva variable para el ID del usuario
     private int currentRating;
 
     public void setCorreo(String correo) {
         this.correo = correo;
+        fetchUserIdFromServer(); // Obtener el UserId basado en el correo
     }
 
     @FXML
     private void initialize() {
         initializeRatingBox();
         btnSubmit.setOnAction(event -> submitComment());
+
+        // Set custom cell factory for ComboBox
+        comboBox.setButtonCell(createStyledListCell());
+        comboBox.setCellFactory(listView -> createStyledListCell());
 
         // Load movie names into ComboBox
         Executors.newSingleThreadExecutor().execute(() -> {
@@ -64,7 +67,10 @@ public class AddCommentController {
         });
 
         comboBox.setOnAction(event -> {
-            // Handle movie selection change if needed
+            String selectedMovie = comboBox.getValue();
+            if (selectedMovie != null) {
+                retrieveMovieId(selectedMovie);
+            }
         });
     }
 
@@ -82,6 +88,7 @@ public class AddCommentController {
 
     private void setRating(int rating) {
         currentRating = rating;
+        System.out.println(currentRating);
         for (int i = 0; i < 5; i++) {
             ImageView star = (ImageView) ratingBox.getChildren().get(i);
             if (i < rating) {
@@ -93,18 +100,14 @@ public class AddCommentController {
     }
 
     private void submitComment() {
+
         String comment = etComment.getText();
-        String selectedMovie = comboBox.getValue();
-        if (selectedMovie == null) {
-            showAlert("Error", "Por favor, selecciona una película.");
-            return;
-        }
 
         Executors.newSingleThreadExecutor().execute(() -> {
             String result = submitCommentToServer(comment, currentRating);
             Platform.runLater(() -> {
                 if ("INSERT_COMMENT_SUCCESS".equals(result)) {
-                    ((Stage) btnSubmit.getScene().getWindow()).close(); // Cierra la ventana al enviar el comentario exitosamente.
+                    ((Stage) btnSubmit.getScene().getWindow()).close();
                 } else {
                     showAlert("Error", "No se pudo añadir el comentario. Por favor, inténtalo de nuevo más tarde.");
                 }
@@ -120,10 +123,10 @@ public class AddCommentController {
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
             out.println("INSERT_COMMENT");
-            out.println(comment);
+            out.println(UserId); // Enviar el UserId en lugar del correo
+            out.println(MovieId);
             out.println(rating);
-            out.println(selectedMovieId);
-            out.println(correo);
+            out.println(comment);
 
             StringBuilder responseBuilder = new StringBuilder();
             String line;
@@ -166,5 +169,63 @@ public class AddCommentController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private ListCell<String> createStyledListCell() {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-background-color: #222831; -fx-text-fill: #EEEEEE; -fx-font-size: 12px;");
+                    setMinHeight(comboBox.getMinHeight());
+                    setPrefHeight(comboBox.getPrefHeight());
+                    setMaxHeight(comboBox.getMaxHeight());
+                }
+            }
+        };
+    }
+
+    private void retrieveMovieId(String movieName) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try (Socket socket = new Socket(IP, PORT);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+                out.println("GET_MOVIE_ID");
+                out.println(movieName);
+
+                String response = in.readLine();
+                MovieId = Integer.parseInt(response);
+                System.out.println("Movie ID for " + movieName + " is " + MovieId);
+
+            } catch (IOException | NumberFormatException e) {
+                showAlert("Error", "No se pudo obtener el ID de la película.");
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void fetchUserIdFromServer() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try (Socket socket = new Socket(IP, PORT);
+                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+                out.println("GET_USER_ID");
+                out.println(correo);
+
+                String response = in.readLine();
+                UserId = Integer.parseInt(response.trim());
+                System.out.println("User ID for " + correo + " is " + UserId);
+
+            } catch (IOException | NumberFormatException e) {
+                showAlert("Error", "No se pudo obtener el ID del usuario.");
+                e.printStackTrace();
+            }
+        });
     }
 }
