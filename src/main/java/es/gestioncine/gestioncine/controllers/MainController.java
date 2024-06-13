@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Parent;
@@ -14,6 +15,8 @@ import java.io.IOException;
 
 public class MainController {
 
+    @FXML
+    public ImageView imgCorreoUsuario;
     @FXML
     private StackPane contentPane;
 
@@ -83,8 +86,7 @@ public class MainController {
     public void showReservas() {
         if(MainController.getInstance().getLblCorreoUsuario().isEmpty()){
             setPage("/es/gestioncine/gestioncine/views/LoginView.fxml");
-        }
-        else {
+        } else {
             setPage("/es/gestioncine/gestioncine/views/ReservationsView.fxml");
         }
     }
@@ -179,22 +181,26 @@ public class MainController {
         Platform.runLater(() -> {
             btnCerrarSesion.setDisable(!sesionIniciada);
             btnCerrarSesion.setVisible(sesionIniciada);
+            btnCerrarSesion.setManaged(sesionIniciada);
 
             lblCorreoUsuario.setVisible(sesionIniciada);
+            lblCorreoUsuario.setManaged(sesionIniciada);
             lblCorreoUsuario.setText(sesionIniciada ? correo : "");
 
             btnIniciarSesion.setDisable(sesionIniciada);
             btnIniciarSesion.setVisible(!sesionIniciada);
+            btnIniciarSesion.setManaged(!sesionIniciada);
 
             btnRegistrarse.setDisable(sesionIniciada);
             btnRegistrarse.setVisible(!sesionIniciada);
+            btnRegistrarse.setManaged(!sesionIniciada);
 
             // Debugging print statements
             System.out.println("Actualizar estado sesión:");
-            System.out.println("btnCerrarSesion - Disabled: " + btnCerrarSesion.isDisabled() + ", Visible: " + btnCerrarSesion.isVisible());
-            System.out.println("lblCorreoUsuario - Visible: " + lblCorreoUsuario.isVisible() + ", Text: " + lblCorreoUsuario.getText());
-            System.out.println("btnIniciarSesion - Disabled: " + btnIniciarSesion.isDisabled() + ", Visible: " + btnIniciarSesion.isVisible());
-            System.out.println("btnRegistrarse - Disabled: " + btnRegistrarse.isDisabled() + ", Visible: " + btnRegistrarse.isVisible());
+            System.out.println("btnCerrarSesion - Disabled: " + btnCerrarSesion.isDisabled() + ", Visible: " + btnCerrarSesion.isVisible() + ", Managed: " + btnCerrarSesion.isManaged());
+            System.out.println("lblCorreoUsuario - Visible: " + lblCorreoUsuario.isVisible() + ", Text: " + lblCorreoUsuario.getText() + ", Managed: " + lblCorreoUsuario.isManaged());
+            System.out.println("btnIniciarSesion - Disabled: " + btnIniciarSesion.isDisabled() + ", Visible: " + btnIniciarSesion.isVisible() + ", Managed: " + btnIniciarSesion.isManaged());
+            System.out.println("btnRegistrarse - Disabled: " + btnRegistrarse.isDisabled() + ", Visible: " + btnRegistrarse.isVisible() + ", Managed: " + btnRegistrarse.isManaged());
         });
     }
 }

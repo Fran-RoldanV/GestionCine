@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="es.gestioncine.gestioncine.controllers.MainController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.gestioncine.gestioncine.controllers.MainController">
 
   <!-- Top Bar -->
   <top>
@@ -21,7 +13,7 @@
       <!-- Navigation Buttons -->
       <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
         <!-- Inicio Button -->
-        <Button fx:id="btnInicio" onMouseEntered="#hover" onMouseExited="#exit" onAction="#showHome" prefHeight="65.0" prefWidth="96.0" style="-fx-background-color: transparent;">
+        <Button fx:id="btnInicio" onAction="#showHome" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="96.0" style="-fx-background-color: transparent;">
           <graphic>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0" spacing="5">
               <ImageView fitHeight="30.0" fitWidth="30.0">
@@ -39,7 +31,7 @@
         </Button>
 
         <!-- Películas Button -->
-        <Button fx:id="btnPeliculas" onMouseEntered="#hover" onMouseExited="#exit" onAction="#showPeliculas" prefHeight="65.0" prefWidth="122.0" style="-fx-background-color: transparent;">
+        <Button fx:id="btnPeliculas" onAction="#showPeliculas" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="122.0" style="-fx-background-color: transparent;">
           <graphic>
             <HBox alignment="CENTER" spacing="5">
               <ImageView fitHeight="30.0" fitWidth="30.0">
@@ -47,7 +39,7 @@
                   <Image url="@../resources/img/nav_movie.png" />
                 </image>
               </ImageView>
-              <Label prefHeight="50.0" prefWidth="71.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Películas" textFill="WHITE">
+              <Label style="-fx-font-size: 17; -fx-font-weight: bold;" text="Películas" textFill="WHITE">
                 <font>
                   <Font name="System Bold" size="12.0" />
                 </font>
@@ -57,7 +49,7 @@
         </Button>
 
         <!-- Reservas Button -->
-        <Button fx:id="btnReservas" onMouseEntered="#hover" onMouseExited="#exit" onAction="#showReservas" prefHeight="65.0" prefWidth="123.0" style="-fx-background-color: transparent;">
+        <Button fx:id="btnReservas" onAction="#showReservas" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="122.0" style="-fx-background-color: transparent;">
           <graphic>
             <HBox alignment="CENTER" spacing="5">
               <ImageView fitHeight="30.0" fitWidth="30.0">
@@ -65,7 +57,7 @@
                   <Image url="@../resources/img/nav_reserve.png" />
                 </image>
               </ImageView>
-              <Label prefHeight="50.0" prefWidth="72.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Reservas" textFill="WHITE">
+              <Label style="-fx-font-size: 17; -fx-font-weight: bold;" text="Reservas" textFill="WHITE">
                 <font>
                   <Font name="System Bold" size="12.0" />
                 </font>
@@ -75,7 +67,7 @@
         </Button>
 
         <!-- Críticas Button -->
-        <Button fx:id="btnCriticas" onMouseEntered="#hover" onMouseExited="#exit" onAction="#showCriticas" prefHeight="65.0" prefWidth="123.0" style="-fx-background-color: transparent;">
+        <Button fx:id="btnCriticas" onAction="#showCriticas" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="122.0" style="-fx-background-color: transparent;">
           <graphic>
             <HBox alignment="CENTER" spacing="5">
               <ImageView fitHeight="30.0" fitWidth="30.0">
@@ -83,7 +75,7 @@
                   <Image url="@../resources/img/nav_comment.png" />
                 </image>
               </ImageView>
-              <Label prefHeight="50.0" prefWidth="72.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Críticas" textFill="WHITE">
+              <Label style="-fx-font-size: 17; -fx-font-weight: bold;" text="Críticas" textFill="WHITE">
                 <font>
                   <Font name="System Bold" size="12.0" />
                 </font>
@@ -92,16 +84,16 @@
           </graphic>
         </Button>
 
-        <!-- Promociones Button -->
-        <Button fx:id="btnDescuentos" onMouseEntered="#hover" onMouseExited="#exit" onAction="#showDescuentos" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;">
+        <!-- Descuentos Button -->
+        <Button fx:id="btnDescuentos" onAction="#showDescuentos" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="151.0" style="-fx-background-color: transparent;">
           <graphic>
-            <HBox alignment="CENTER" prefHeight="57.0" prefWidth="240.0" spacing="5">
+            <HBox alignment="CENTER" prefHeight="57.0" prefWidth="146.0" spacing="5">
               <ImageView fitHeight="30.0" fitWidth="30.0">
                 <image>
                   <Image url="@../resources/img/nav_discount.png" />
                 </image>
               </ImageView>
-              <Label prefHeight="50.0" prefWidth="160.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Promociones" textFill="WHITE">
+              <Label prefHeight="26.0" prefWidth="104.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Descuentos" textFill="WHITE">
                 <font>
                   <Font name="System Bold" size="12.0" />
                 </font>
@@ -111,76 +103,69 @@
         </Button>
       </HBox>
 
-      <!-- Spacer to align buttons to the right -->
-      <Region HBox.hgrow="ALWAYS" />
+      <!-- Right Side - User Info and Actions -->
+      <HBox alignment="CENTER_RIGHT" spacing="10">
+        <!-- User Email Label (Initially hidden) -->
+        <Label fx:id="lblCorreoUsuario" alignment="CENTER_RIGHT" managed="false" prefHeight="50.0" prefWidth="300.0" style="-fx-font-size: 17; -fx-font-weight: bold;" textFill="WHITE" visible="false" />
 
-      <!-- Right-aligned elements -->
-      <StackPane alignment="CENTER_RIGHT">
-        <HBox alignment="CENTER_RIGHT" spacing="10">
-          <!-- User Email Label (Initially hidden) -->
-          <Label fx:id="lblCorreoUsuario" prefHeight="50.0" prefWidth="108.0" style="-fx-font-size: 17; -fx-font-weight: bold;" textFill="WHITE" visible="false"/>
+        <!-- Cerrar Sesión Button -->
+        <Button fx:id="btnCerrarSesion" managed="false" onAction="#cerrarSesion" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;" visible="false">
+          <graphic>
+            <HBox alignment="CENTER" spacing="5">
+              <ImageView fitHeight="30.0" fitWidth="30.0">
+                <image>
+                  <Image url="@../resources/img/nav_logout.png" />
+                </image>
+              </ImageView>
+              <Label prefHeight="50.0" prefWidth="108.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Cerrar Sesión" textFill="WHITE">
+                <font>
+                  <Font name="System Bold" size="12.0" />
+                </font>
+              </Label>
+            </HBox>
+          </graphic>
+        </Button>
 
-          <!-- Cerrar Sesión Button -->
-          <Button fx:id="btnCerrarSesion" onMouseEntered="#hover" onMouseExited="#exit" onAction="#cerrarSesion" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;">
-            <graphic>
-              <HBox alignment="CENTER" spacing="5">
-                <ImageView fitHeight="30.0" fitWidth="30.0">
-                  <image>
-                    <Image url="@../resources/img/nav_logout.png" />
-                  </image>
-                </ImageView>
-                <Label prefHeight="50.0" prefWidth="108.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Cerrar Sesión" textFill="WHITE">
-                  <font>
-                    <Font name="System Bold" size="12.0" />
-                  </font>
-                </Label>
-              </HBox>
-            </graphic>
-          </Button>
-        </HBox>
+        <!-- Iniciar Sesión Button -->
+        <Button fx:id="btnIniciarSesion" onAction="#showIniciarSesion" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;">
+          <graphic>
+            <HBox alignment="CENTER" spacing="5">
+              <ImageView fitHeight="30.0" fitWidth="30.0">
+                <image>
+                  <Image url="@../resources/img/nav_login.png" />
+                </image>
+              </ImageView>
+              <Label prefHeight="50.0" prefWidth="108.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Iniciar Sesión" textFill="WHITE">
+                <font>
+                  <Font name="System Bold" size="12.0" />
+                </font>
+              </Label>
+            </HBox>
+          </graphic>
+        </Button>
 
-        <HBox alignment="CENTER_RIGHT" spacing="10">
-          <!-- Iniciar Sesión Button -->
-          <Button fx:id="btnIniciarSesion" onMouseEntered="#hover" onMouseExited="#exit" onAction="#showIniciarSesion" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;">
-            <graphic>
-              <HBox alignment="CENTER" spacing="5">
-                <ImageView fitHeight="30.0" fitWidth="30.0">
-                  <image>
-                    <Image url="@../resources/img/nav_login.png" />
-                  </image>
-                </ImageView>
-                <Label prefHeight="50.0" prefWidth="108.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Iniciar Sesión" textFill="WHITE">
-                  <font>
-                    <Font name="System Bold" size="12.0" />
-                  </font>
-                </Label>
-              </HBox>
-            </graphic>
-          </Button>
-
-          <!-- Registrarse Button -->
-          <Button fx:id="btnRegistrarse" onMouseEntered="#hover" onMouseExited="#exit" onAction="#showRegistrarse" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;">
-            <graphic>
-              <HBox alignment="CENTER" spacing="5">
-                <ImageView fitHeight="30.0" fitWidth="30.0">
-                  <image>
-                    <Image url="@../resources/img/nav_register.png" />
-                  </image>
-                </ImageView>
-                <Label prefHeight="50.0" prefWidth="108.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Registrarse" textFill="WHITE">
-                  <font>
-                    <Font name="System Bold" size="12.0" />
-                  </font>
-                </Label>
-              </HBox>
-            </graphic>
-          </Button>
-        </HBox>
-      </StackPane>
+        <!-- Registrarse Button -->
+        <Button fx:id="btnRegistrarse" onAction="#showRegistrarse" onMouseEntered="#hover" onMouseExited="#exit" prefHeight="65.0" prefWidth="159.0" style="-fx-background-color: transparent;">
+          <graphic>
+            <HBox alignment="CENTER" spacing="5">
+              <ImageView fitHeight="30.0" fitWidth="30.0">
+                <image>
+                  <Image url="@../resources/img/nav_register.png" />
+                </image>
+              </ImageView>
+              <Label prefHeight="50.0" prefWidth="108.0" style="-fx-font-size: 17; -fx-font-weight: bold;" text="Registrarse" textFill="WHITE">
+                <font>
+                  <Font name="System Bold" size="12.0" />
+                </font>
+              </Label>
+            </HBox>
+          </graphic>
+        </Button>
+      </HBox>
     </HBox>
   </top>
 
-  <!-- Content Pane -->
+  <!-- Center Content Pane -->
   <center>
     <StackPane fx:id="contentPane" prefHeight="200.0" prefWidth="200.0" />
   </center>
